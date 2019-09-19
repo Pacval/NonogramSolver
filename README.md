@@ -1,5 +1,9 @@
 # NonogramSolver
 
+Application Angular 8 permettant de solutionner des picross.
+(c'est quoi un picross ? -> https://fr.wikipedia.org/wiki/Picross )
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.
 
 ## Development server
