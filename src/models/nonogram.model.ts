@@ -27,20 +27,47 @@ export class Nonogram {
         });
     }
 
-    private solveHorizontals() {
+    /**
+     * Résolution
+     */
+    solveNonogram() {
+        let blocked = false;
+        while(!this.isCompleted() && !blocked) {
+            blocked = !this.solveHorizontals() && !this.solveVerticals();
+        }
+    }
+
+    private isCompleted() {
+        return this.grid.every(element => element.every(subElement => subElement != Square.NOTFOUND));
+    }
+
+    /**
+     * Solutionne les lignes horizontales
+     * 
+     * Retourne true si la ligne a changé, false sinon
+     */
+    private solveHorizontals(): boolean {
+        let change: boolean;
         for (let i = 0; i < this.horizontalSolutions.length; i++) {
+            
+            const newLine = this.horizontalSolutions[i].solve(this.grid[i]);
 
-            // on récupère la ligne horizontale
-            const currentHorizontalLine = this.grid[i];
-
-            const newLine = this.horizontalSolutions[i].solve(currentHorizontalLine);
+            change = (JSON.stringify(this.grid[i]) !== JSON.stringify(newLine));
 
             // on met à jour le grid (pour les lignes c'est plutot simple, on remplace juste le tableau)
             this.grid[i] = newLine;
         };
+
+        return change;
     }
 
-    private solveVerticals() {
+    /**
+     * Solutionne les lignes verticales
+     * 
+     * Retourne true si la ligne a changé, false sinon
+     */
+    private solveVerticals(): boolean {
+        let change: boolean;
         for (let i = 0; i < this.verticalSolutions.length; i++) {
 
             // on récupère la ligne verticale (on passe par une copie de grid)
@@ -51,11 +78,15 @@ export class Nonogram {
 
             const newLine = this.verticalSolutions[i].solve(currentVerticalLine);
 
+            change = (JSON.stringify(currentVerticalLine) !== JSON.stringify(newLine));
+
             // on met à jour le grid (on recopie case par case)
             for (let j = 0; j < this.lengthHorizontal; j++) {
                 this.grid[j][i] = newLine[i];
             }
         }
+
+        return change;
     }
 
 }
