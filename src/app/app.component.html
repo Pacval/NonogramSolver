@@ -1,4 +1,50 @@
 <div class="page">
 
-  
+    <div class="container">
+        <form (ngSubmit)="createGrid()">
+            <h4>Nombre de cases :</h4>
+            <label>
+                Horizontales :
+                <input type="number" name="nbrHorizontalCases"
+                    [(ngModel)]="nbrHorizontalCases" [min]="1" required>
+            </label>
+            <label>
+                Verticales :
+                <input type="number" name="nbrVerticalCases"
+                    [(ngModel)]="nbrVerticalCases" [min]="1" required>
+            </label>
+            <label>
+                Nombre d'indices max (par ligne/colonne) :
+                <input type="number" name="maxClues" [(ngModel)]="maxClues"
+                    [min]="1" required>
+            </label>
+
+            <button class="button" type="submit">Créer tableau</button>
+        </form>
+    </div>
+
+    <div *ngIf="displayGrid">
+        <div class="grid">
+            <!-- construction du visuel du plateau -->
+            <span *ngFor='let v of createRangeFrom0(verticalLength)'>
+                <span *ngFor='let h of createRangeFrom0(horizontalLength)'>
+                    <!-- input différent en focntion de sa position sur le plateau -->
+                    <input
+                        *ngIf="v <= nbClues && h <= nbClues"
+                        class="case-blank"
+                        disabled>
+                    
+                    <input *ngIf="(v> nbClues && h <= nbClues) || (v <= nbClues && h> nbClues)"
+                        class="case-clues"
+                        id={{h}}-{{w}}
+                        type="number"
+                        [min]="1">
+
+                    <input *ngIf="v> nbClues && h > nbClues" class="case-grid" disabled>
+                </span>
+                <br>
+            </span>
+        </div>
+        <button class="button" (click)="launch()">Solutionner</button>
+    </div>
 </div>

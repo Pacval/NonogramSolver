@@ -1,0 +1,46 @@
+.page {
+    width: fit-content
+}
+
+label {
+    display: block;
+    margin: 2px
+}
+
+.case-blank {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #fff;
+    text-align: center;
+    background-color: #fff
+}
+
+.case-clues {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    text-align: center;
+    background-color: #fff
+}
+
+.case-grid {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    text-align: center;
+    background-color: #aeaeae
+}
+
+/* Pour enlever les flèches des spinners (input number) */
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    /* Firefox */
+}

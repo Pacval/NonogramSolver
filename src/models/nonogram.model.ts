@@ -11,7 +11,6 @@ export class Nonogram {
     horizontalSolutions: LineSolutions[];
     verticalSolutions: LineSolutions[];
 
-
     constructor(lengthHorizontal: number, lengthVertical: number, cluesForHorizontals: number[][], cluesForVerticals: number[][]) {
         this.lengthHorizontal = lengthHorizontal;
         this.lengthVertical = lengthVertical;
@@ -31,9 +30,9 @@ export class Nonogram {
      * Résolution
      */
     solveNonogram() {
-        let blocked = false;
-        while(!this.isCompleted() && !blocked) {
-            blocked = !this.solveHorizontals() && !this.solveVerticals();
+        let forward = false;
+        while (!this.isCompleted() && forward) {
+            forward = this.solveHorizontals() || this.solveVerticals();
         }
     }
 
@@ -47,15 +46,21 @@ export class Nonogram {
      * Retourne true si la ligne a changé, false sinon
      */
     private solveHorizontals(): boolean {
-        let change: boolean;
+        let change = false;
         for (let i = 0; i < this.horizontalSolutions.length; i++) {
-            
-            const newLine = this.horizontalSolutions[i].solve(this.grid[i]);
 
-            change = (JSON.stringify(this.grid[i]) !== JSON.stringify(newLine));
+            let currentHorizontalLine = this.grid[i];
 
-            // on met à jour le grid (pour les lignes c'est plutot simple, on remplace juste le tableau)
-            this.grid[i] = newLine;
+            // on process que s'il reste des cases non trouvées
+            if (currentHorizontalLine.some(element => element === Square.NOTFOUND)) {
+
+                const newLine = this.horizontalSolutions[i].solve(currentHorizontalLine);
+
+                change = change || (JSON.stringify(currentHorizontalLine) !== JSON.stringify(newLine));
+
+                // on met à jour le grid (pour les lignes c'est plutot simple, on remplace juste le tableau)
+                this.grid[i] = newLine;
+            }
         };
 
         return change;
@@ -67,7 +72,7 @@ export class Nonogram {
      * Retourne true si la ligne a changé, false sinon
      */
     private solveVerticals(): boolean {
-        let change: boolean;
+        let change = false;
         for (let i = 0; i < this.verticalSolutions.length; i++) {
 
             // on récupère la ligne verticale (on passe par une copie de grid)
@@ -76,13 +81,17 @@ export class Nonogram {
                 currentVerticalLine.push(this.grid[j][i]);
             }
 
-            const newLine = this.verticalSolutions[i].solve(currentVerticalLine);
+            // on process que s'il reste des cases non trouvées
+            if (currentVerticalLine.some(element => element === Square.NOTFOUND)) {
 
-            change = (JSON.stringify(currentVerticalLine) !== JSON.stringify(newLine));
+                const newLine = this.verticalSolutions[i].solve(currentVerticalLine);
 
-            // on met à jour le grid (on recopie case par case)
-            for (let j = 0; j < this.lengthHorizontal; j++) {
-                this.grid[j][i] = newLine[i];
+                change = change || (JSON.stringify(currentVerticalLine) !== JSON.stringify(newLine));
+
+                // on met à jour le grid (on recopie case par case)
+                for (let j = 0; j < this.lengthHorizontal; j++) {
+                    this.grid[j][i] = newLine[i];
+                }
             }
         }
 

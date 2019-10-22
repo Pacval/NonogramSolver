@@ -96,7 +96,7 @@ export class LineSolutions {
         let newLine: Square[];
 
         // On va tester toutes les possibilités des cases de la ligne, et si une case n'a qu'une possibilité (soit que EMPTY, soit que FILLED),
-        // alors cette case est forcément de cette valeur 
+        // alors cette case est forcément de cette valeur
 
         for (let i = 0; i < this.length; i++) {
             if (currentLine[i] === Square.NOTFOUND) {
