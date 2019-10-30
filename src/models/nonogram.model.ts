@@ -42,7 +42,9 @@ export class Nonogram {
 
         let forward = true;
         while (!this.isCompleted() && forward) {
-            forward = this.solveHorizontals() || this.solveVerticals();
+            const changeHorizontals = this.solveHorizontals();
+            const changeVerticals = this.solveVerticals();
+            forward = changeHorizontals || changeVerticals;
         }
 
         return this.grid;
@@ -102,7 +104,7 @@ export class Nonogram {
 
                 // on met à jour le grid (on recopie case par case)
                 for (let j = 0; j < this.lengthHorizontal; j++) {
-                    this.grid[j][i] = newLine[i];
+                    this.grid[j][i] = newLine[j];
                 }
             }
         }
