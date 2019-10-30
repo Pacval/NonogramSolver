@@ -23,12 +23,28 @@ label {
     background-color: #fff
 }
 
-.case-grid {
+.case-grid-empty {
     width: 50px;
     height: 50px;
     border: 1px solid #000;
     text-align: center;
-    background-color: #aeaeae
+    background-color: #cfcfcf
+}
+
+.case-grid-filled {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    text-align: center;
+    background-color: #000000
+}
+
+.case-grid-not-found {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    text-align: center;
+    background-color: #b53a3a
 }
 
 /* Pour enlever les flèches des spinners (input number) */

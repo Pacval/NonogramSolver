@@ -29,11 +29,23 @@ export class Nonogram {
     /**
      * Résolution
      */
-    solveNonogram() {
-        let forward = false;
+    solveNonogram(): Square[][] {
+
+        // instantiation grid
+        this.grid = [];
+        for (let i = 0; i < this.lengthVertical; i++) {
+            this.grid[i] = [];
+            for (let j = 0; j < this.lengthHorizontal; j++) {
+                this.grid[i][j] = Square.NOTFOUND;
+            }
+        }
+
+        let forward = true;
         while (!this.isCompleted() && forward) {
             forward = this.solveHorizontals() || this.solveVerticals();
         }
+
+        return this.grid;
     }
 
     private isCompleted() {

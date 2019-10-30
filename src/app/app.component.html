@@ -26,21 +26,32 @@
     <div *ngIf="displayGrid">
         <div class="grid">
             <!-- construction du visuel du plateau -->
-            <span *ngFor='let v of createRangeFrom0(verticalLength)'>
-                <span *ngFor='let h of createRangeFrom0(horizontalLength)'>
-                    <!-- input différent en focntion de sa position sur le plateau -->
+            <span *ngFor='let line of createRangeFrom1(verticalLength)'>
+                <span *ngFor='let col of createRangeFrom1(horizontalLength)'>
+                    <!-- cases vides -->
                     <input
-                        *ngIf="v <= nbClues && h <= nbClues"
+                        *ngIf="line <= nbClues && col <= nbClues"
                         class="case-blank"
                         disabled>
                     
-                    <input *ngIf="(v> nbClues && h <= nbClues) || (v <= nbClues && h> nbClues)"
+                    <!-- indices verticaux -->
+                    <input *ngIf="line <= nbClues && col > nbClues"
                         class="case-clues"
-                        id={{h}}-{{w}}
+                        [(ngModel)]="verticalClues[col - nbClues - 1][line - 1]"
                         type="number"
                         [min]="1">
 
-                    <input *ngIf="v> nbClues && h > nbClues" class="case-grid" disabled>
+                    <!-- indices horizontaux -->
+                    <input *ngIf="line > nbClues && col <= nbClues"
+                        class="case-clues"
+                        [(ngModel)]="horizontalClues[line - nbClues - 1][col - 1]"
+                        type="number"
+                        [min]="1">
+
+                    <!-- plateau de jeu -->
+                    <input *ngIf="line > nbClues && col > nbClues"
+                        [ngClass]="getGridCaseStyle(line, col)"
+                        disabled>
                 </span>
                 <br>
             </span>

@@ -60,7 +60,6 @@ export class LineSolutions {
         } else {
             for (let i = 0; i <= freeSpaces; i++) {
                 let tmpLine = line.slice()
-                console.log('i : ' + i);
                 // on ajoute un nombre i d'espaces libres à la ligne
                 for (let j = 0; j < i; j++) {
                     tmpLine.push(Square.EMPTY);
@@ -93,7 +92,7 @@ export class LineSolutions {
             }
         }
 
-        let newLine: Square[];
+        let newLine = [];
 
         // On va tester toutes les possibilités des cases de la ligne, et si une case n'a qu'une possibilité (soit que EMPTY, soit que FILLED),
         // alors cette case est forcément de cette valeur
